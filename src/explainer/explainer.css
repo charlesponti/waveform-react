@@ -1,5 +1,6 @@
 /* Scoped under .rvo so it cannot leak into the host page. Fonts: load IBM Plex Sans/Mono and Instrument Serif yourself, or override --display, --body, --mono. */
-.rvo {
+.rvo,
+.rvo-bar {
   --bg: #060b0b;
   --panel: #0b1514;
   --line: #17312d;
@@ -39,27 +40,29 @@
 .rvo .rvo-eyebrow { font: 500 12px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); margin-bottom: 14px; display: block; }
 .rvo .rvo-eyebrow b { color: var(--mint); font-weight: 500; }
 .rvo .rvo-lede { font-size: 20px; color: #b7cbc5; max-width: 52ch; }
-.rvo .rvo-bar {
-  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
-  margin-inline: calc(-1 * clamp(16px, 4vw, 40px));
+.rvo-bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; color: var(--fg); font: 400 14px/1.4 var(--body);
   padding: 10px clamp(16px, 4vw, 40px);
   display: flex; gap: 10px 14px; align-items: center; flex-wrap: wrap;
   background: rgba(6, 11, 11, 0.86); backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
-.rvo .rvo-bar .rvo-brand { font: 500 12px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); margin-right: 4px; }
+.rvo-bar .rvo-brand { font: 500 12px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); margin-right: 4px; }
 .rvo .rvo-chips { display: flex; gap: 6px; flex-wrap: wrap; }
 .rvo button,
-.rvo select {
+.rvo select,
+.rvo-bar button {
   font: 500 13px/1 var(--mono); color: var(--fg); background: var(--panel);
   border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; cursor: pointer;
 }
+.rvo-bar button:hover,
 .rvo button:hover { border-color: var(--mint); }
 .rvo button:focus-visible,
 .rvo input:focus-visible,
 .rvo select:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
+.rvo-bar button[aria-pressed="true"],
 .rvo button[aria-pressed="true"] { background: var(--mint); color: #04201c; border-color: var(--mint); }
-.rvo .rvo-bar .rvo-spacer { flex: 1; }
+.rvo-bar .rvo-spacer { flex: 1; }
 .rvo select { border-radius: 8px; padding: 7px 8px; }
 .rvo .rvo-hero { padding-block: clamp(36px, 6vw, 72px) 24px; display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
 .rvo .rvo-hero-orb { width: min(100%, 640px); margin-inline: auto; }
@@ -125,3 +128,6 @@
 .rvo button { font-family: var(--mono); }
 .rvo footer { max-width: 62ch; }
 .rvo .rvo-lede { margin-top: 20px; }
+.rvo .rvo-bar { margin-inline: calc(-1 * clamp(16px, 4vw, 40px)); }
+.rvo-bar button { font-family: var(--mono); }
+.rvo-bar button:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
