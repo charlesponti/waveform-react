@@ -1,4 +1,4 @@
-# @charlesponti/waveform-react
+# @thecharlesponti/waveform-react
 
 The React half of Waveform (the iOS half is [waveform-ios](https://github.com/charlesponti/waveform-ios)).
 
@@ -6,11 +6,11 @@ A sphere of dots that listens. Time runs from the equator to the poles, pitch ru
 each dot out. Also in the box: the whole interactive explainer of the maths behind it, as one component.
 
 ```bash
-npm i @charlesponti/waveform-react
+npm i @thecharlesponti/waveform-react
 ```
 
 ```tsx
-import { VoiceOrb } from '@charlesponti/waveform-react';
+import { VoiceOrb } from '@thecharlesponti/waveform-react';
 
 <VoiceOrb signal="vowels" style={{ width: 360 }} />
 ```
@@ -21,12 +21,12 @@ import { VoiceOrb } from '@charlesponti/waveform-react';
 | --- | --- |
 | `<VoiceOrb />` | The orb. Props: `signal`, `mode` (`spectrum` or `loudness`), `dots`, `gain`, `history`, `wrap`, `spin`, `colorBy`, `transport`. |
 | `<SpectrumMap />` | The same data laid flat: pitch across, time up. |
-| `<OrbExplainer />` | The full article, from the naive one-number orb to the maths and engineering of the real one. Import `@charlesponti/waveform-react/style.css` once. |
+| `<OrbExplainer />` | The full article, from the naive one-number orb to the maths and engineering of the real one. Import `@thecharlesponti/waveform-react/style.css` once. |
 | `<SignalPicker />` | Chips plus Sound and Pause buttons for a transport. Included in `OrbExplainer`; use it alone to drive your own orbs. |
 
 ```tsx
-import { OrbExplainer } from '@charlesponti/waveform-react';
-import '@charlesponti/waveform-react/style.css';
+import { OrbExplainer } from '@thecharlesponti/waveform-react';
+import '@thecharlesponti/waveform-react/style.css';
 
 export default () => <OrbExplainer />;
 ```
@@ -37,7 +37,7 @@ export default () => <OrbExplainer />;
 your own mono, 16 kHz samples, which the orb loops:
 
 ```tsx
-import { analyse, VoiceOrb } from '@charlesponti/waveform-react';
+import { analyse, VoiceOrb } from '@thecharlesponti/waveform-react';
 
 const analysis = useMemo(() => analyse(samples /* Float32Array, 16 kHz */), [samples]);
 <VoiceOrb signal={analysis} />
