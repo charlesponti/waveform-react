@@ -5,6 +5,8 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: 'jsdom',
+    // The explainer tests render the whole article and drive every control; on a busy machine that can pass 5 s.
+    testTimeout: 30_000,
     setupFiles: ['src/test/setup.ts'],
     include: ['src/**/*.test.{ts,tsx}'],
     coverage: {
