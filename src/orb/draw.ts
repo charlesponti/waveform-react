@@ -129,5 +129,4 @@ export function drawMap(canvas: HTMLCanvasElement, A: Analysis, t: number, hist:
   ctx.strokeStyle = 'rgba(255,180,84,0.6)'; ctx.beginPath(); ctx.moveTo(left, bottom - 0.5); ctx.lineTo(right, bottom - 0.5); ctx.stroke();
   label(ctx, 'now', left + 6, bottom - 6, COLORS.amber, 10);
   label(ctx, `${hist.toFixed(1)} s ago`, left + 6, top + 13, COLORS.dim, 10);
-  void mh;
 }

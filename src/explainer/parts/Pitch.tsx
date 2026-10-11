@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { FFT_N, FLOOR_S, HI_HZ, LO_HZ, SR, TAU } from '../../dsp/constants';
 import { mod, toDisp } from '../../dsp/math';
-import { analyseFrame, bandsFor, hann } from '../../dsp/spectrum';
+import { analyseFrame, hann } from '../../dsp/spectrum';
 import { currentAnalysis, useCanvas, useLatest } from '../../hooks';
 import { COLORS, fit, label } from '../../orb/draw';
 import type { Transport } from '../../transport';
@@ -39,7 +39,6 @@ export function Pitch({ transport }: { transport: Transport }) {
     }
     [100, 300, 1000, 3000].forEach((f) => label(ctx, f >= 1000 ? `${f / 1000}k` : `${f}`, (Math.log(f / LO_HZ) / Math.log(HI_HZ / LO_HZ)) * opt.nb * bw, h - 6, COLORS.dim, 10, 'center'));
     label(ctx, 'Hz, log scale: every band the same musical width', w - 6, h - 6, COLORS.dim, 10, 'right');
-    void bandsFor;
   }, transport);
 
   const runCheck = () => {

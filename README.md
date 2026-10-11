@@ -1,14 +1,16 @@
-# react-voice-orb
+# @charlesponti/waveform-react
+
+The React half of Waveform (the iOS half is [waveform-ios](https://github.com/charlesponti/waveform-ios)).
 
 A sphere of dots that listens. Time runs from the equator to the poles, pitch runs round it, and loudness pushes
 each dot out. Also in the box: the whole interactive explainer of the maths behind it, as one component.
 
 ```bash
-npm i react-voice-orb
+npm i @charlesponti/waveform-react
 ```
 
 ```tsx
-import { VoiceOrb } from 'react-voice-orb';
+import { VoiceOrb } from '@charlesponti/waveform-react';
 
 <VoiceOrb signal="vowels" style={{ width: 360 }} />
 ```
@@ -19,12 +21,12 @@ import { VoiceOrb } from 'react-voice-orb';
 | --- | --- |
 | `<VoiceOrb />` | The orb. Props: `signal`, `mode` (`spectrum` or `loudness`), `dots`, `gain`, `history`, `wrap`, `spin`, `colorBy`, `transport`. |
 | `<SpectrumMap />` | The same data laid flat: pitch across, time up. |
-| `<OrbExplainer />` | The full article, from the naive one-number orb to the maths and engineering of the real one. Import `react-voice-orb/style.css` once. |
+| `<OrbExplainer />` | The full article, from the naive one-number orb to the maths and engineering of the real one. Import `@charlesponti/waveform-react/style.css` once. |
 | `<SignalPicker />` | Chips plus Sound and Pause buttons for a transport. Included in `OrbExplainer`; use it alone to drive your own orbs. |
 
 ```tsx
-import { OrbExplainer } from 'react-voice-orb';
-import 'react-voice-orb/style.css';
+import { OrbExplainer } from '@charlesponti/waveform-react';
+import '@charlesponti/waveform-react/style.css';
 
 export default () => <OrbExplainer />;
 ```
@@ -35,7 +37,7 @@ export default () => <OrbExplainer />;
 your own mono, 16 kHz samples, which the orb loops:
 
 ```tsx
-import { analyse, VoiceOrb } from 'react-voice-orb';
+import { analyse, VoiceOrb } from '@charlesponti/waveform-react';
 
 const analysis = useMemo(() => analyse(samples /* Float32Array, 16 kHz */), [samples]);
 <VoiceOrb signal={analysis} />
@@ -70,7 +72,8 @@ the band powers add up to the signal's mean square, column edges are `round(k ·
 
 ```bash
 npm run dev          # the explainer in a Vite dev server
-npm test             # the DSP tests
+npm test             # all tests
+npm run coverage     # tests with a 100% coverage gate
 npm run build        # dist/ with types and style.css
 npm run build:demo   # a static site in demo-dist/
 ```

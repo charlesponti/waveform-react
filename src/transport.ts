@@ -48,7 +48,7 @@ export class Transport {
   setPaused(on: boolean) {
     if (on === this.snapshot.paused) return;
     if (on) { this.frozen = this.t(); if (this.snapshot.audio) this.setSound(false); this.set({ paused: true }); }
-    else { this.t0 = this.clockNow() - (this.frozen ?? 0); this.frozen = null; this.set({ paused: false }); }
+    else { this.t0 = this.clockNow() - this.frozen!; this.frozen = null; this.set({ paused: false }); }
   }
 
   /** Starts or stops playback. Call it from a user gesture. Returns false when the browser has no audio. */
@@ -77,16 +77,17 @@ export class Transport {
 
   private startSource() {
     this.stopSource();
-    if (!this.ctx || !this.gain) return;
+    // Only called while sound is on, which is when the context and gain exist.
+    const ctx = this.ctx!, gain = this.gain!;
     const name = this.snapshot.signal;
     let buf = this.bufs.get(name);
     if (!buf) {
-      buf = this.ctx.createBuffer(1, SR * DUR, SR);
+      buf = ctx.createBuffer(1, SR * DUR, SR);
       buf.copyToChannel(analysisFor(name).sig as Float32Array<ArrayBuffer>, 0);
       this.bufs.set(name, buf);
     }
-    const src = this.ctx.createBufferSource();
-    src.buffer = buf; src.loop = true; src.connect(this.gain);
+    const src = ctx.createBufferSource();
+    src.buffer = buf; src.loop = true; src.connect(gain);
     src.start(0, mod(this.t(), DUR));
     this.src = src;
   }

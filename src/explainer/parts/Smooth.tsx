@@ -30,7 +30,7 @@ export function Smooth({ transport }: { transport: Transport }) {
       let ph = m;
       if (pll) {
         // A phase-locked loop on the frame times, as in the Swift FrameClock.
-        if (Number.isNaN(s.phase) || m - s.phase >= 0.5 || m < s.phase - 0.5) s.phase = m;
+        if (Number.isNaN(s.phase) || m - s.phase >= 0.5) s.phase = m;
         else {
           const predicted = s.phase + s.period, err = Math.max(-s.period, Math.min(2 * s.period, m - predicted));
           s.period += 0.01 * err; s.phase = predicted + 0.15 * err;
