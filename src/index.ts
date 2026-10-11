@@ -1,0 +1,10 @@
+export { VoiceOrb, SpectrumMap, type VoiceOrbProps, type SpectrumMapProps } from './components/VoiceOrb';
+export { OrbExplainer, type OrbExplainerProps } from './explainer/OrbExplainer';
+export { SignalPicker } from './explainer/Bar';
+export { Transport, defaultTransport, type TransportState } from './transport';
+export { useTransport } from './hooks';
+export { analyse, analysisFor, type Analysis } from './analysis';
+export { SIGNALS, SIGNAL_ORDER, type Signal, type SignalName } from './signals';
+export { columns, type Columns } from './dsp/columns';
+export { analyseFrame, bandsFor, type SpectrumOptions } from './dsp/spectrum';
+export { SR, CPS, NB, FFT_N, LO_HZ, HI_HZ, DUR } from './dsp/constants';
