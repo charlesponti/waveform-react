@@ -58,6 +58,10 @@ export interface OrbOptions {
   /** Turn in radians a second. */
   spin?: number;
   colorBy?: 'age' | 'pitch' | null;
+  /** Whether the sphere spins; when false it holds a fixed angle. */
+  turning?: boolean;
+  /** The angle (radians) held when `turning` is false. */
+  still?: number;
   /** The colour of the dots, as a CSS colour (hex). */
   tint?: string;
   /** Multiplies the size of every dot. */
@@ -75,7 +79,7 @@ export function drawOrb(canvas: HTMLCanvasElement, dd: Dots, o: OrbOptions) {
   const wrap = o.wrap ?? 1, gain = o.gain ?? 0.5, A = o.analysis;
   const H = (o.history ?? 0.8) * CPS;
   const ph = o.t * CPS - 0.5 + (o.mode === 'spectrum' ? SPEC_DELAY : 0);
-  const spinA = (o.spin ?? 0.12) * o.t * wrap;
+  const spinA = ((o.turning === false ? (o.still ?? 0.6) : (o.spin ?? 0.12) * o.t)) * wrap;
   const tip = lerp(0.55, 0.32, wrap);
   const sy = Math.sin(spinA), cy = Math.cos(spinA), sx = Math.sin(tip), cx = Math.cos(tip);
   const ext = lerp(1.45, 1 + gain, wrap) * 1.04;

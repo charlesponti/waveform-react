@@ -21,6 +21,10 @@ export interface VoiceOrbProps {
   wrap?: number;
   /** Turn in radians a second; 0 holds it still. */
   spin?: number;
+  /** Whether the sphere spins; when false it holds a fixed angle. */
+  turning?: boolean;
+  /** The angle (radians) held when `turning` is false. */
+  still?: number;
   colorBy?: 'age' | 'pitch' | null;
   /** The colour of the dots, as a CSS colour (hex). */
   tint?: string;
@@ -40,14 +44,14 @@ function useAnalysis(signal: VoiceOrbProps['signal'], transport: Transport): Ana
 
 /** A sphere of dots that listens: time runs from the equator to the poles, pitch runs round it. */
 export function VoiceOrb({
-  signal, mode = 'spectrum', dots = 1800, gain = 0.5, history = 0.8, wrap = 1, spin = 0.12, colorBy = null, tint, dotScale,
+  signal, mode = 'spectrum', dots = 1800, gain = 0.5, history = 0.8, wrap = 1, spin = 0.12, turning = true, still = 0.6, colorBy = null, tint, dotScale,
   transport = defaultTransport, className, style, 'aria-label': ariaLabel = 'An orb of dots that moves with the sound',
 }: VoiceOrbProps) {
   const analysis = useAnalysis(signal, transport);
-  const opts = useLatest({ analysis, mode, dots, gain, history, wrap, spin, colorBy, tint, dotScale });
+  const opts = useLatest({ analysis, mode, dots, gain, history, wrap, spin, turning, still, colorBy, tint, dotScale });
   const ref = useCanvas((canvas, t) => {
     const o = opts.current;
-    drawOrb(canvas, dotsFor(o.dots), { analysis: o.analysis, t, mode: o.mode, gain: o.gain, history: o.history, wrap: o.wrap, spin: o.spin, colorBy: o.colorBy, tint: o.tint, dotScale: o.dotScale });
+    drawOrb(canvas, dotsFor(o.dots), { analysis: o.analysis, t, mode: o.mode, gain: o.gain, history: o.history, wrap: o.wrap, spin: o.spin, turning: o.turning, still: o.still, colorBy: o.colorBy, tint: o.tint, dotScale: o.dotScale });
   }, transport);
   return <canvas ref={ref} className={className} role="img" aria-label={ariaLabel} style={{ display: 'block', width: '100%', aspectRatio: '1 / 1', ...style }} />;
 }

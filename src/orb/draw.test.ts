@@ -91,6 +91,11 @@ describe('drawOrb', () => {
     expect(arcCount(c0)).toBe(50);
     expect(arcCount(c1)).toBe(50);
   });
+  it('holds a fixed angle when turning is false', () => {
+    const c = canvas();
+    drawOrb(c, dotsFor(50), { ...o, turning: false });
+    expect(arcCount(c)).toBe(50);
+  });
   it('flat (wrap 0), half and full wrap all draw, and honour gain, history and spin', () => {
     for (const wrap of [0, 0.4, 0.6, 1]) {
       const c = canvas();
