@@ -5,6 +5,16 @@ import type { Dots } from './dots';
 
 export const COLORS = { mint: '#5eead4', amber: '#ffb454', violet: '#a78bfa', dim: '#7f9a93', line: '#17312d', fg: '#d6e5e0', faint: '#2a4a44' };
 
+/** Parse a hex colour (#rgb or #rrggbb) into [r,g,b]. Falls back to mint on failure. */
+export function tintRgb(hex: string): [number, number, number] {
+  let h = hex.trim().replace(/^#/, '');
+  if (h.length === 3) h = h.split('').map((c) => c + c).join('');
+  if (h.length !== 6) return [94, 234, 212];
+  const n = parseInt(h, 16);
+  if (Number.isNaN(n)) return [94, 234, 212];
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
 /** Sizes the canvas backing store to its CSS size and device pixel ratio, and returns a context in CSS pixels. */
 export function fit(canvas: HTMLCanvasElement) {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -48,6 +58,10 @@ export interface OrbOptions {
   /** Turn in radians a second. */
   spin?: number;
   colorBy?: 'age' | 'pitch' | null;
+  /** The colour of the dots, as a CSS colour (hex). */
+  tint?: string;
+  /** Multiplies the size of every dot. */
+  dotScale?: number;
 }
 
 /**
@@ -80,7 +94,7 @@ export function drawOrb(canvas: HTMLCanvasElement, dd: Dots, o: OrbOptions) {
     const x1 = px * cy + pz * sy, z1 = -px * sy + pz * cy;
     const y2 = py * cx - z1 * sx, z2 = py * sx + z1 * cx;
     const depth = clamp((z2 / (wrap > 0.5 ? 1 : 1.2) + 1) / 2, 0, 1);
-    const size = (o.mode === 'naive' ? 1.3 : 1 + 2.8 * v) * (0.75 + 0.25 * depth) * k;
+    const size = (o.mode === 'naive' ? 1.3 : 1 + 2.8 * v) * (0.75 + 0.25 * depth) * k * (o.dotScale ?? 1);
     const X = x0 + x1 * R, Y = y0 - y2 * R;
     if (o.colorBy) {
       const hue = o.colorBy === 'age' ? lerp(172, 275, dd.age[i]) : lerp(28, 285, dd.pitch[i]);
@@ -94,7 +108,8 @@ export function drawOrb(canvas: HTMLCanvasElement, dd: Dots, o: OrbOptions) {
   }
   if (!o.colorBy) {
     const alphas = [0.18, 0.4, 0.7, 1];
-    layers.forEach((p, i) => { ctx.fillStyle = `rgba(94,234,212,${alphas[i]})`; ctx.fill(p); });
+    const [tr, tg, tb] = tintRgb(o.tint ?? COLORS.mint);
+    layers.forEach((p, i) => { ctx.fillStyle = `rgba(${tr},${tg},${tb},${alphas[i]})`; ctx.fill(p); });
   }
 }
 

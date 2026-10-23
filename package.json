@@ -1,6 +1,6 @@
 {
   "name": "@thecharlesponti/waveform-react",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A voice-reactive orb of dots, and the interactive explainer of the maths behind it, as React components.",
   "license": "MIT",
   "type": "module",

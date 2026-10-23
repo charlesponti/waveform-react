@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { analysisFor } from '../analysis';
 import { callsOf, ctxOf } from '../test/setup';
 import { dotsFor } from './dots';
-import { drawMap, drawOrb, fit, label, specAt } from './draw';
+import { drawMap, drawOrb, fit, label, specAt, tintRgb } from './draw';
 
 const A = analysisFor('vowels');
 const canvas = () => document.createElement('canvas');
@@ -48,6 +48,14 @@ describe('specAt', () => {
   });
 });
 
+describe('tintRgb', () => {
+  it('parses hex colours and falls back to mint', () => {
+    expect(tintRgb('#5eead4')).toEqual([94, 234, 212]);
+    expect(tintRgb('#abc')).toEqual([170, 187, 204]);
+    expect(tintRgb('zzzzzz')).toEqual([94, 234, 212]);
+    expect(tintRgb('nope')).toEqual([94, 234, 212]);
+  });
+});
 describe('drawOrb', () => {
   const o = { analysis: A, t: 2, mode: 'spectrum' as const };
   it('draws every dot once in four depth layers, one fill each', () => {
