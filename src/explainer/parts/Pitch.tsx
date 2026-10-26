@@ -54,14 +54,14 @@ export function Pitch({ transport }: { transport: Transport }) {
     <Part id="pitch" lead="Part 6" eyebrow="maths" title="Pitch: a spectrum every column">
       <Cols>
         <div>
-          <p>For each column the last <code>N</code> samples go through a Hann window and a Fourier transform. A window is needed because the transform assumes the slice repeats forever. Cut a tone off sharply and the seam spreads its energy across every frequency. Switch the window off on the right to see the skirts.</p>
+          <p>For each column the last <code>N</code> samples go through a Hann window and a Fourier transform. A window is needed because the transform treats the slice as one period of a repeating signal. Cut a tone off sharply and the seam leaks energy across nearby frequency bins. Switch the window off on the right to see the skirts.</p>
           <Eq>{'w[n] = ½ − ½ cos(2πn / N)'}</Eq>
-          <p>The numbers are scaled so they mean something. A pure tone of amplitude A should read A/√2, its rms, in whichever band it falls in. With Σw² the window's energy and X the transform:</p>
+          <p>The numbers are scaled so they mean something. For an in-band sine whose energy sits within one band, the band value is calibrated to A/√2, its rms; the check below uses a 1 kHz sine. With Σw² the sum of squared window weights and X the transform:</p>
           <Eq>{`power[k] = 2 · |X[k]|² / (N · Σw²)
 band power = Σ power[k] over the bins inside the band
 band value = √(band power)         «a sine A gives A / √2»`}</Eq>
-          <p>Bands are 24 steps on a log scale from 80 Hz to 8 kHz, so each is the same musical width (a little over three semitones). A band edge rarely falls on a bin, so the bin it cuts through is counted by the fraction inside. The band powers add up to the signal's mean square, which the tests check.</p>
-          <p>Speech loses 6 dB or more per octave, so the top bands would sit near silence. A display tilt adds <code>tilt</code> dB per octave above 1 kHz. Set it to 0 and the numbers are exact.</p>
+          <p>Bands are 24 steps on a log scale, so each is the same musical width (a little over three semitones). The browser demo covers 80 Hz to 7 kHz; the iOS app uses 80 Hz to 8 kHz. The implementation treats each FFT bin's power as spread uniformly across its width, so it counts a bin in proportion to the part covered by a band edge. In the 1 kHz test, the band powers sum to the tone's mean square; frequencies outside the configured range are omitted.</p>
+          <p>Speech spectra often fall by roughly 6 dB per octave or more, so the top bands can sit near silence. A display tilt adds <code>tilt</code> dB per octave above 1 kHz. Set it to 0 to show the calibrated, untilted band levels.</p>
           <p>One more detail: a window of <code>N</code> samples describes the moment half a window ago. The orb reads the spectrum <code>N/2</code> samples later than the loudness, so a vowel's pitch and its volume line up.</p>
         </div>
         <Demo>

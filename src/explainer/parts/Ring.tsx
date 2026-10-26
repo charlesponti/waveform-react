@@ -60,7 +60,7 @@ export function Ring({ transport }: { transport: Transport }) {
       <Cols>
         <div>
           <p>The microphone callback runs on a real-time thread with a deadline of a few milliseconds. It must never wait for the screen, take a lock, allocate memory, or print. The screen thread has to read what it wrote.</p>
-          <p>The answer is a ring: a fixed array and one counter. The audio thread writes into the slot, then publishes the new count with a release store. The screen thread loads the count with an acquire load, so it can never see a slot that is still being filled.</p>
+          <p>The answer is a ring: a fixed array and one counter. The audio thread writes into the slot, then publishes the new count with a release store. The screen thread loads that count with an acquire load, which makes completed writes visible. If the writer laps the reader during its copy, the reader discards it and retries.</p>
           <Code>{`func append(_ column: Column) {            // audio thread only
   let index = written.load(ordering: .relaxed)
   slots[index & mask] = column

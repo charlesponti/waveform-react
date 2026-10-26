@@ -42,7 +42,7 @@ export function Columns({ transport }: { transport: Transport }) {
     <Part id="columns" lead="Part 2" eyebrow="maths and engineering" title="Cut time into exact columns">
       <Cols>
         <div>
-          <p>Everything after this works on columns: fixed slices of time, each summarised by the lowest sample, the highest sample and the root mean square. The orb never touches raw samples again.</p>
+          <p>The waveform and loudness path works on columns: fixed slices of time, each summarised by the lowest sample, the highest sample and the root mean square. Pitch has a separate Fourier path over rolling sample windows. The renderer consumes those summaries and never reads microphone samples itself.</p>
           <p>The edges have to be exact. A phone records at 44.1 or 48 kHz, and 120 columns a second does not divide 44,100. A column is 367.5 samples long. Truncate it to 367 and every column is a little short, so after a minute the picture has run ahead of the sound.</p>
           <Code>{`// the edge of column k is placed from the running sample count
 static func edge(_ k: Int, _ sampleRate: Double, _ rate: Double) -> Int {

@@ -73,13 +73,13 @@ export function Loudness({ transport }: { transport: Transport }) {
     <Part id="loudness" lead="Part 3" eyebrow="maths" title="Loudness without flicker">
       <Cols>
         <div>
-          <p>Root mean square is the sound's energy rather than its biggest swing:</p>
+          <p>Root mean square is an effective amplitude that tracks average signal power, rather than just the biggest swing:</p>
           <Eq>{'rms = √( (x₁² + x₂² + … + xₙ²) / n )'}</Eq>
           <p>A voice at 120 Hz repeats every 8.3 ms. If a column is shorter than that, its rms depends on which part of the wave it landed on: near a crest it is high, near a zero crossing it is low. Neighbouring columns disagree and the orb shimmers, even though the voice is steady.</p>
           <p>The fix is to measure over a window of a few pitch periods. The builder keeps the last 25 ms of column sums and reports the rms of all of them. Drag the column length down and watch the amber line start to shake while the mint one holds still.</p>
           <p>Then the shape of the response. Instant attack, so a hit shows at once. A release with a time constant (150 ms by default), so a sound fades the way a meter needle does, not as a flash.</p>
           <Eq>{'level[k] = max( rms[k], level[k−1] · e^(−1 / (rate · release)) )'}</Eq>
-          <p>Last, the scale. Speech spans 60 dB or more, so linear height makes a quiet word invisible next to a loud one. Heights are decibels:</p>
+          <p>Last, the scale. Speech can have a wide level range, so linear height can make a quiet word hard to see next to a loud one. Heights are decibels relative to full scale (dBFS):</p>
           <Eq>{`dB = 20 · log₁₀(amplitude)
 height = clamp( (dB − floor) / −floor, 0, 1 )   «floor = −60 dB»`}</Eq>
         </div>

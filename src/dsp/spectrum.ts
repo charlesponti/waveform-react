@@ -26,9 +26,9 @@ export function bandsFor(nb: number): Bands {
 }
 
 export interface SpectrumOptions {
-  /** Taper the slice with a Hann window (default). Off, a tone leaks across every band. */
+  /** Taper the slice with a Hann window (default). Off, a tone leaks into more distant bands. */
   hann: boolean;
-  /** Display tilt in dB per octave above 1 kHz; 0 is flat and exact. */
+  /** Display tilt in dB per octave above 1 kHz; 0 disables display weighting. */
   tilt: number;
   /** Number of log-spaced bands. */
   nb: number;
@@ -36,7 +36,7 @@ export interface SpectrumOptions {
 
 /**
  * Linear rms per band for the FFT_N samples ending at `end`, looping over `sig`.
- * A pure tone of amplitude A reads A / sqrt(2) in its band when `tilt` is 0.
+ * An in-band, bin-centred sine of amplitude A reads A / sqrt(2) in its band when `tilt` is 0.
  */
 export function analyseFrame(sig: ArrayLike<number>, end: number, o: SpectrumOptions, out: Float64Array) {
   const len = sig.length, half = FFT_N / 2;
