@@ -83,13 +83,13 @@ smoothed += gain * (raw - smoothed)       // gain = 0.02
 // Playhead: draw a fixed moment behind the audio
 position = min(newest - 1,
                streamTime(hostNow - latency) * rate - 0.5)`}</Code>
-          <p>The latency (60 ms) covers the audio buffer, the time to finish a column, and the one column of look-ahead the interpolation needs.</p>
+          <p>The chosen 60 ms delay is intended to cover the audio buffer, the time to finish a column, and the one column of look-ahead the interpolation needs.</p>
           <p>The system also reports frame times with a millisecond or two of noise. Used raw, that noise becomes shake. A phase-locked loop follows the steady beat of the frames:</p>
           <Code>{`predicted = phase + period
 error = clamp(measured - predicted, -period, 2 * period)
 period += 0.01 * error
 phase  = predicted + 0.15 * error`}</Code>
-          <p>Last, the playhead lands between two columns. Reading the nearest one gives steps. Linear gives a corner at every column. Catmull-Rom runs a cubic through the four neighbours, so the value and its slope are both continuous:</p>
+          <p>Last, the playhead lands between two columns. Reading the nearest one gives steps. Linear gives a corner at every column. Catmull-Rom runs a cubic through the four neighbours, giving continuous values and slopes at joins before the display clamps the result:</p>
           <Eq>{'p(t) = ½ · [ 2p₁ + (p₂ − p₀)t + (2p₀ − 5p₁ + 4p₂ − p₃)t² + (3p₁ − p₀ − 3p₂ + p₃)t³ ]'}</Eq>
         </div>
         <Demo>

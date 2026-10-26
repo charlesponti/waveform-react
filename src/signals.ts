@@ -109,7 +109,7 @@ export const SIGNALS: Record<SignalName, Signal> = {
   },
   vowels: {
     label: 'Vowels',
-    look: { lead: 'A voice', text: 'is a buzz at a steady pitch, shaped by two resonances that move as the mouth changes shape, "ah" to "ee" to "oo". They show as two bright bumps that slide along the pitch axis, with the buzz\'s harmonics as fine ridges under them.' },
+    look: { lead: 'The Vowels demo', text: 'is a buzz with a gently changing pitch, shaped by two resonances that move as the mouth changes shape, "ah" to "ee" to "oo". They show as two bright bumps that slide along the pitch axis, with the buzz\'s harmonics as fine ridges under them.' },
     make() {
       const x = blank(), count = x.length, block = 160;
       const targets = [[700, 1200], [300, 2300], [320, 800], [700, 1200]];
